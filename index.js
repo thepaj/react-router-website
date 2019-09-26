@@ -1,15 +1,39 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Link, Switch } from 'react-router-dom';
+import { I18nextProvider } from 'react-i18next';
+import i18next from 'i18next';
+import { translate, Trans } from 'react-i18next';
 import './styles.css';
 
 const Header = () => {
     return (
-        <div className="title" >
-            Radim Jurecka
+        <div>
+            <div className="title" >
+                Radim Jurecka
+            </div>
+            <div>
+                Constructions
+            </div>
+            <div>
+                <button onClick={() => i18next.changeLanguage('de')}>de</button>
+                <button onClick={() => i18next.changeLanguage('en')}>en</button>
+            </div>
         </div>
     )
 }
+
+class Card extends React.Component {
+    render() {
+        return (
+            <div>
+                <h1>{this.props.cardTitle}</h1><br />
+                <div>{this.props.cardDescription}</div>
+            </div>
+        )
+    }
+}
+
 
 class Home extends React.Component {
     constructor(props) {
@@ -43,13 +67,23 @@ class Home extends React.Component {
                         <button onClick={this.onEnglishClick}>English</button>
                     </div>
                 </div>
+                <Card cardTitle='Jeřáby' cardDescription='' />
+                <Card cardTitle='Elektroinstalace' cardDescription='' />
+                <Card cardTitle='Ocelové konstrukce' cardDescription='' />
+                <Card cardTitle='Zámečnické práce' cardDescription='' />
             </div>
         )
     }
 }
 
 const About = () => {
-    return <div>About</div>
+    return (
+        <div>
+            Firma byla založena v r. 2004. <br />
+            Od svého vzniku se zabývá montážemi, opravami, rekonstrukcemi mostových jeřábů, otočných sloupových jeřábů a jeřábových drážek, výrobou a montážemi ocelových konstrukcí, elektroinstalacemi a zámečnickými pracemi. <br />
+            Provádí revizní činnost, preventivní prohlídky zdvihacích zařízení, prohlídky ocelových konstrukcí a zvláštní posouzení jeřábů.
+        </div>
+    )
 }
 
 const OurProducts = () => {
@@ -57,7 +91,15 @@ const OurProducts = () => {
 }
 
 const Contact = () => {
-    return <div>Contact</div>
+    return (
+        <div>
+            Ing. Radim Jurečka <br />
+            Štefánikova 58/31 <br />
+            742 21 Kopřivnice <br />
+            Tel: + 420 724 027 991 <br />
+            Fax: + 420 556 810 190 <br />
+        </div>
+    )
 }
 
 const App = () => {
@@ -94,7 +136,15 @@ const App = () => {
     );
 }
 
+//export default translate('common')(App);
+
+i18next.init({
+    interpolation: { escapeValue: false },
+});
+
 ReactDOM.render(
-    <App />,
+    <I18nextProvider i18n={i18next}>
+        <App />
+    </I18nextProvider>,
     document.querySelector('#root')
 );
